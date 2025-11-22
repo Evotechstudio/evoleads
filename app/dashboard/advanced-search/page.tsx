@@ -199,7 +199,7 @@ export default function AdvancedSearchPage() {
         <div className="flex items-center space-x-4">
           <div className="text-right">
             <div className="text-sm text-muted-foreground">Remaining Leads</div>
-            <div className="text-2xl font-bold text-primary">{remainingLeads}</div>
+            <div className="text-2xl font-bold text-primary">{planInfo.leadsAvailable}</div>
           </div>
           <Badge variant="outline" className="px-3 py-1">
             <Zap className="h-3 w-3 mr-1" />
