@@ -202,7 +202,7 @@ export async function POST(request: NextRequest) {
       confidence_score: lead.email ? 0.9 : 0.5
     }));
 
-    const { data: insertedLeads, error: leadsError } = await supabase
+    const { data: insertedLeads, error: leadsError } = await (supabase as any)
       .from('leads')
       .insert(leadsToInsert)
       .select();
