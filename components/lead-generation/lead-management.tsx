@@ -407,7 +407,7 @@ export function LeadManagement({ organizationId: userId, className }: LeadManage
                             Requested: {search.leads_requested}
                           </span>
                           <span className="font-medium text-green-600">
-                            Found: {search.leads_count || search.leads_found || 0}
+                            Found: {search.lead_count || search.leads_found || 0}
                           </span>
                         </div>
                       </div>
