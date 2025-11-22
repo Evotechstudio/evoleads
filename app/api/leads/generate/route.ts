@@ -214,7 +214,7 @@ export async function POST(request: NextRequest) {
     // Insert metadata for leads with additional info
     if (insertedLeads) {
       const metadataToInsert = insertedLeads
-        .map((lead, index) => {
+        .map((lead: any, index: number) => {
           const originalLead = uniqueLeads[index];
           if (!originalLead) return null;
           
@@ -230,7 +230,7 @@ export async function POST(request: NextRequest) {
         .filter(Boolean);
 
       if (metadataToInsert.length > 0) {
-        await supabase.from('lead_metadata').insert(metadataToInsert);
+        await (supabase as any).from('lead_metadata').insert(metadataToInsert);
       }
     }
 
