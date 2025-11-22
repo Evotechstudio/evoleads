@@ -104,7 +104,10 @@ export async function GET(req: NextRequest) {
 
 // Get search statistics for organization
 export async function POST(req: NextRequest) {
-  const supabase = createServerClient()
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
   
   try {
     // Get authenticated user
