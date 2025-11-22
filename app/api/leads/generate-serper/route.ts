@@ -152,16 +152,22 @@ export async function POST(request: NextRequest) {
 
       // Save metadata
       if (insertedLeads) {
-        const metadataToInsert = insertedLeads.map((lead, index) => ({
-          lead_id: lead.id,
-          address: leads[index].address,
-          city: leads[index].city,
-          state: leads[index].state,
-          rating: leads[index].rating,
-          review_count: leads[index].review_count,
-          google_maps_url: leads[index].google_maps_url,
-          place_id: leads[index].place_id,
-        })).filter(m => m.address || m.rating);
+        const metadataToInsert = insertedLeads
+          .map((lead, index) => {
+            const sourceLead = leads[index];
+            if (!sourceLead) return null;
+            return {
+              lead_id: lead.id,
+              address: sourceLead.address,
+              city: sourceLead.city,
+              state: sourceLead.state,
+              rating: sourceLead.rating,
+              review_count: sourceLead.review_count,
+              google_maps_url: sourceLead.google_maps_url,
+              place_id: sourceLead.place_id,
+            };
+          })
+          .filter((m): m is NonNullable<typeof m> => m !== null && (!!m.address || !!m.rating));
 
         if (metadataToInsert.length > 0) {
           await supabase.from('lead_metadata').insert(metadataToInsert);
