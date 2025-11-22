@@ -278,7 +278,7 @@ async function scrapeLeads(
         
         // Extract business name
         const titleMatch = siteHtml.match(/<title[^>]*>([^<]+)<\/title>/i);
-        let businessName = titleMatch ? titleMatch[1].trim() : new URL(website).hostname;
+        let businessName = titleMatch?.[1]?.trim() || new URL(website).hostname;
         
         // Clean up business name
         businessName = businessName
