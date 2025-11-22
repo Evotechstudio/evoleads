@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
 
     // Check cache first
     const cacheKey = `${businessType}-${country}-${state}-${city || ''}`.toLowerCase();
-    const { data: cachedResults } = await supabase
+    const { data: cachedResults } = await (supabase as any)
       .from('serp_cache')
       .select('results, cached_at')
       .eq('search_query', cacheKey)
@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
       leads = await scrapeLeads(businessType, country, state, city);
 
       // Cache the results
-      await supabase.from('serp_cache').upsert({
+      await (supabase as any).from('serp_cache').upsert({
         search_query: cacheKey,
         country,
         state,
