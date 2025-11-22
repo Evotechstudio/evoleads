@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { auth } from '@clerk/nextjs/server'
+import { checkUserOrganizationAccess } from '@/lib/database'
 
 export async function GET(req: NextRequest) {
   try {
