@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { searchId: string } }
+  { params }: { params: Promise<{ searchId: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -13,9 +13,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Await params in Next.js 15
-    const resolvedParams = await params;
-    const { searchId } = resolvedParams;
+    const { searchId } = await params;
     
     console.log('API called with searchId:', searchId, 'userId:', userId);
 
