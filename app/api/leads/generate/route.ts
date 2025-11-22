@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create search record (organization_id is now optional)
-    const { data: searchRecord, error: searchError } = await supabase
+    const { data: searchRecord, error: searchError } = await (supabase as any)
       .from('user_searches')
       .insert({
         user_id: userId,
