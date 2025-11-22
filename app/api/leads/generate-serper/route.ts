@@ -67,14 +67,14 @@ export async function POST(request: NextRequest) {
     );
 
     // Check user plan and limits
-    let { data: userPlan } = await supabase
+    let { data: userPlan } = await (supabase as any)
       .from('user_plans')
       .select('*')
       .eq('user_id', userId)
       .single();
 
     if (!userPlan) {
-      const { data: newPlan } = await supabase
+      const { data: newPlan } = await (supabase as any)
         .from('user_plans')
         .insert({
           user_id: userId,
@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update user plan usage
-    await supabase
+    await (supabase as any)
       .from('user_plans')
       .update({
         search_requests_used: userPlan.search_requests_used + 1,

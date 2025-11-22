@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Get user plan from Supabase to find subscription ID
-    const { data: userPlan, error: fetchError } = await supabase
+    const { data: userPlan, error: fetchError } = await (supabase as any)
       .from('user_plans')
       .select('*')
       .eq('user_id', userId)
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
       )
 
       // Update user plan in Supabase
-      await supabase
+      await (supabase as any)
         .from('user_plans')
         .update({
           subscription_status: 'cancel_at_period_end',
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       // If Safepay API fails, still update local status
       console.error('Safepay cancellation failed, updating local status only:', safepayError)
       
-      await supabase
+      await (supabase as any)
         .from('user_plans')
         .update({
           subscription_status: 'cancel_requested',

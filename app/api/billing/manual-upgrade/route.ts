@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     const { planName = 'starter' } = body
 
     // Upgrade user plan directly in database
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('user_plans')
       .upsert({
         user_id: userId,

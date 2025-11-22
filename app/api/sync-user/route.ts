@@ -51,7 +51,7 @@ export async function POST() {
     }
 
     // Create user plan
-    const { data, error } = await supabase.from('user_plans').insert({
+    const { data, error } = await (supabase as any).from('user_plans').insert({
       user_id: userId,
       plan_name: 'free',
       search_requests_used: 0,

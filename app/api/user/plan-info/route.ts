@@ -16,14 +16,14 @@ export async function GET() {
     );
 
     // Get or create user plan
-    let { data: userPlan } = await supabase
+    let { data: userPlan } = await (supabase as any)
       .from('user_plans')
       .select('*')
       .eq('user_id', userId)
       .single();
 
     if (!userPlan) {
-      const { data: newPlan } = await supabase
+      const { data: newPlan } = await (supabase as any)
         .from('user_plans')
         .insert({
           user_id: userId,

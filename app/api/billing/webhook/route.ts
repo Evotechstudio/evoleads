@@ -79,7 +79,7 @@ async function handlePaymentSuccess(data: any) {
 
   try {
     // Update user plan in Supabase
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('user_plans')
       .upsert({
         user_id: userId,
@@ -118,7 +118,7 @@ async function handlePaymentFailed(data: any) {
 
   try {
     // Update subscription status in Supabase
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('user_plans')
       .update({
         subscription_status: 'payment_failed',
@@ -148,7 +148,7 @@ async function handleSubscriptionCreated(data: any) {
   }
 
   try {
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('user_plans')
       .upsert({
         user_id: userId,
@@ -183,7 +183,7 @@ async function handleSubscriptionUpdated(data: any) {
   }
 
   try {
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('user_plans')
       .update({
         subscription_status: data.status || 'active',
@@ -213,7 +213,7 @@ async function handleSubscriptionCancelled(data: any) {
 
   try {
     // Downgrade user to free plan
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('user_plans')
       .update({
         plan_name: 'free',

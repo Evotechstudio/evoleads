@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     const supabase = createServerClient();
 
     // Get or create user plan (simplified - no organizations)
-    let { data: userPlan } = await supabase
+    let { data: userPlan } = await (supabase as any)
       .from('user_plans')
       .select('*')
       .eq('user_id', userId)
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 
     // If no plan exists, create a free plan
     if (!userPlan) {
-      const { data: newPlan } = await supabase
+      const { data: newPlan } = await (supabase as any)
         .from('user_plans')
         .insert({
           user_id: userId,
@@ -235,7 +235,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update user plan usage
-    await supabase
+    await (supabase as any)
       .from('user_plans')
       .update({
         search_requests_used: userPlan.search_requests_used + 1,

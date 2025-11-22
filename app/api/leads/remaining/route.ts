@@ -13,7 +13,7 @@ export async function GET() {
     const supabase = createServerClient();
 
     // Get or create user plan
-    let { data: userPlan } = await supabase
+    let { data: userPlan } = await (supabase as any)
       .from('user_plans')
       .select('*')
       .eq('user_id', userId)
@@ -21,7 +21,7 @@ export async function GET() {
 
     // If no plan exists, create a free plan
     if (!userPlan) {
-      const { data: newPlan } = await supabase
+      const { data: newPlan } = await (supabase as any)
         .from('user_plans')
         .insert({
           user_id: userId,
