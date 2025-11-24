@@ -14,7 +14,8 @@ import {
   Copy,
   ExternalLink,
   MessageSquare,
-  Check
+  Check,
+  MapPin
 } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { Lead } from '../../lib/types'
@@ -120,6 +121,31 @@ export function LeadCard({
       </CardHeader>
 
       <CardContent className="space-y-3">
+        {/* Rating and Address */}
+        {(lead.rating || lead.address) && (
+          <div className="space-y-2 pb-2 border-b border-border/50">
+            {lead.rating && (
+              <div className="flex items-center space-x-2">
+                <Star className="h-4 w-4 text-yellow-400 fill-current shrink-0" />
+                <span className="text-sm font-medium">{lead.rating}</span>
+                {lead.review_count && (
+                  <span className="text-xs text-muted-foreground">
+                    ({lead.review_count} reviews)
+                  </span>
+                )}
+              </div>
+            )}
+            {lead.address && (
+              <div className="flex items-start space-x-2">
+                <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                <span className="text-sm text-muted-foreground line-clamp-2" title={lead.address}>
+                  {lead.address}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Contact Information */}
         <div className="space-y-2">
           {lead.email && (

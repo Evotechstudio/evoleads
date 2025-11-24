@@ -48,6 +48,14 @@ export interface Lead {
   verification_status: 'unverified' | 'verified' | 'invalid' | null
   tags: string[] | null
   created_at: string
+  // Metadata fields (from lead_metadata table)
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  rating?: number | null
+  review_count?: number | null
+  google_maps_url?: string | null
+  place_id?: string | null
 }
 
 export interface UserSearch {
