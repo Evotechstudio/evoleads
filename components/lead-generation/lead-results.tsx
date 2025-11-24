@@ -277,7 +277,7 @@ export function LeadResults({
       {/* Header with Stats */}
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
             <div>
               <CardTitle className="flex items-center space-x-2">
                 <Users className="h-5 w-5" />
@@ -290,28 +290,32 @@ export function LeadResults({
             </div>
             
             {/* Action Buttons */}
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={copyAllEmails}
                 disabled={filteredAndSortedLeads.filter(lead => lead.email).length === 0}
+                className="flex-1 sm:flex-none"
               >
                 {copiedEmails ? (
-                  <Check className="h-4 w-4 mr-2 text-green-500" />
+                  <Check className="h-4 w-4 sm:mr-2 text-green-500" />
                 ) : (
-                  <Copy className="h-4 w-4 mr-2" />
+                  <Copy className="h-4 w-4 sm:mr-2" />
                 )}
-                Copy Emails ({filteredAndSortedLeads.filter(lead => lead.email).length})
+                <span className="hidden sm:inline">Copy Emails ({filteredAndSortedLeads.filter(lead => lead.email).length})</span>
+                <span className="sm:hidden">Emails</span>
               </Button>
               
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleExportCSV}
+                className="flex-1 sm:flex-none"
               >
-                <Download className="h-4 w-4 mr-2" />
-                Export CSV
+                <Download className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Export CSV</span>
+                <span className="sm:hidden">CSV</span>
               </Button>
             </div>
           </div>
@@ -321,9 +325,9 @@ export function LeadResults({
       {/* Filters and Controls */}
       <Card>
         <CardContent className="p-4">
-          <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+          <div className="flex flex-col space-y-4">
             {/* Search */}
-            <div className="flex-1 max-w-md">
+            <div className="w-full">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -336,11 +340,12 @@ export function LeadResults({
             </div>
 
             {/* Filters */}
-            <div className="flex items-center space-x-2 flex-wrap gap-2">
+            <div className="flex items-center overflow-x-auto gap-2 pb-2 -mx-4 px-4 scrollbar-hide">
               <Button
                 variant={filterType === 'all' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilterType('all')}
+                className="whitespace-nowrap"
               >
                 All ({leads.length})
               </Button>
@@ -348,29 +353,32 @@ export function LeadResults({
                 variant={filterType === 'favorited' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilterType('favorited')}
+                className="whitespace-nowrap"
               >
                 <Star className="h-3 w-3 mr-1" />
-                Favorited ({filterCounts.favorited})
+                <span className="hidden xs:inline">Favorited </span>({filterCounts.favorited})
               </Button>
               <Button
                 variant={filterType === 'with_email' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilterType('with_email')}
+                className="whitespace-nowrap"
               >
                 <Mail className="h-3 w-3 mr-1" />
-                With Email ({filterCounts.withEmail})
+                <span className="hidden xs:inline">Email </span>({filterCounts.withEmail})
               </Button>
             </div>
 
             {/* View Mode and Sort */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-between gap-2">
               {/* Sort */}
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center gap-1 overflow-x-auto">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => handleSort('business_name')}
                   className={cn(
+                    "whitespace-nowrap",
                     sortField === 'business_name' && 'bg-muted'
                   )}
                 >
@@ -384,6 +392,7 @@ export function LeadResults({
                   size="sm"
                   onClick={() => handleSort('confidence_score')}
                   className={cn(
+                    "whitespace-nowrap",
                     sortField === 'confidence_score' && 'bg-muted'
                   )}
                 >
@@ -395,7 +404,7 @@ export function LeadResults({
               </div>
 
               {/* View Mode Toggle */}
-              <div className="flex items-center border rounded-md">
+              <div className="flex items-center border rounded-md shrink-0">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="sm"

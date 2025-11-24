@@ -302,21 +302,22 @@ export function LeadManagement({ organizationId: userId, className }: LeadManage
       {/* Search History and Controls */}
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
             <CardTitle className="flex items-center space-x-2">
               <Calendar className="h-5 w-5" />
               <span>Search History</span>
             </CardTitle>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleRefresh}
                 disabled={refreshing}
+                className="flex-1 sm:flex-none"
               >
-                <RefreshCw className={cn("h-4 w-4 mr-2", refreshing && "animate-spin")} />
-                Refresh
+                <RefreshCw className={cn("h-4 w-4 sm:mr-2", refreshing && "animate-spin")} />
+                <span className="hidden sm:inline">Refresh</span>
               </Button>
               
               <Button
@@ -324,9 +325,10 @@ export function LeadManagement({ organizationId: userId, className }: LeadManage
                 size="sm"
                 onClick={exportAllLeads}
                 disabled={stats.totalLeads === 0}
+                className="flex-1 sm:flex-none"
               >
-                <Download className="h-4 w-4 mr-2" />
-                Export CSV
+                <Download className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">CSV</span>
               </Button>
               
               <Button
@@ -334,9 +336,10 @@ export function LeadManagement({ organizationId: userId, className }: LeadManage
                 size="sm"
                 onClick={exportToExcel}
                 disabled={stats.totalLeads === 0}
+                className="flex-1 sm:flex-none"
               >
-                <FileSpreadsheet className="h-4 w-4 mr-2" />
-                Export Excel
+                <FileSpreadsheet className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Excel</span>
               </Button>
             </div>
           </div>
