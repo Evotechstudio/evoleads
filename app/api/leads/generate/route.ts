@@ -121,6 +121,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check for existing searches to calculate offset
+    const { data: existingSearches } = await (supabase as any)
+      .from('user_searches')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('business_type', businessType)
+      .eq('country', country)
+      .eq('state', state)
+      .eq('city', city || '')
+      .eq('status', 'completed');
+
+    const searchOffset = (existingSearches?.length || 0) * leadsCount;
+
     // Create search record (organization_id is now optional)
     const { data: searchRecord, error: searchError } = await (supabase as any)
       .from('user_searches')
@@ -143,7 +156,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check cache first
+    // Get existing business names to avoid duplicates
+    const { data: existingLeads } = await supabase
+      .from('leads')
+      .select('business_name, website, email, phone, user_searches!inner(user_id)')
+      .eq('user_searches.user_id', userId);
+
+    const existingBusinessNames = new Set(
+      existingLeads?.map(l => l.business_name.toLowerCase().trim()) || []
+    );
+
+    const existingContactSet = new Set(
+      existingLeads?.map(l => `${l.website}-${l.email}-${l.phone}`) || []
+    );
+
+    // Check cache first (but use offset to get different results from cache)
     const cacheKey = `${businessType}-${country}-${state}-${city || ''}`.toLowerCase();
     const { data: cachedResults } = await (supabase as any)
       .from('serp_cache')
@@ -157,12 +184,13 @@ export async function POST(request: NextRequest) {
     let leads: ScrapedLead[] = [];
 
     if (cachedResults && cachedResults.results) {
-      // Use cached results
-      leads = (cachedResults.results as any).leads || [];
-      console.log(`Using ${leads.length} cached leads from ${cachedResults.cached_at}`);
+      // Use cached results but apply offset to get different leads
+      const allCachedLeads = (cachedResults.results as any).leads || [];
+      leads = allCachedLeads.slice(searchOffset, searchOffset + leadsCount * 3); // Get more to account for duplicates
+      console.log(`Using cached leads from ${cachedResults.cached_at} with offset ${searchOffset}`);
     } else {
-      // Scrape new leads
-      leads = await scrapeLeads(businessType, country, state, city);
+      // Scrape new leads with offset
+      leads = await scrapeLeads(businessType, country, state, city, searchOffset);
 
       // Cache the results
       await (supabase as any).from('serp_cache').upsert({
@@ -177,19 +205,11 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Deduplicate against existing leads for this user
-    const { data: existingLeads } = await supabase
-      .from('leads')
-      .select('website, email, phone, user_searches!inner(user_id)')
-      .eq('user_searches.user_id', userId);
-
-    const existingSet = new Set(
-      existingLeads?.map(l => `${l.website}-${l.email}-${l.phone}`) || []
-    );
-
+    // Deduplicate against existing leads
     const uniqueLeads = leads.filter(lead => {
-      const key = `${lead.website}-${lead.email}-${lead.phone}`;
-      return !existingSet.has(key);
+      const contactKey = `${lead.website}-${lead.email}-${lead.phone}`;
+      const nameKey = lead.business_name.toLowerCase().trim();
+      return !existingContactSet.has(contactKey) && !existingBusinessNames.has(nameKey);
     }).slice(0, leadsCount);
 
     // Insert leads into database (organization_id is now optional)
@@ -271,15 +291,23 @@ async function scrapeLeads(
   businessType: string,
   country: string,
   state: string,
-  city?: string
+  city?: string,
+  offset: number = 0
 ): Promise<ScrapedLead[]> {
   const leads: ScrapedLead[] = [];
   
   try {
-    // Build search query
+    // Build search query with variation based on offset
     const location = city ? `${city}, ${state}, ${country}` : `${state}, ${country}`;
-    const searchQuery = `${businessType} in ${location}`;
+    const variations = ['', 'best', 'top', 'local', 'near me'];
+    const variation = variations[Math.floor(offset / 10) % variations.length];
+    const searchQuery = variation 
+      ? `${variation} ${businessType} in ${location}`
+      : `${businessType} in ${location}`;
+    
     const encodedQuery = encodeURIComponent(searchQuery);
+    
+    console.log(`Scraping: ${searchQuery} (offset: ${offset})`);
     
     // Scrape Google Maps
     const mapsUrl = `https://www.google.com/maps/search/${encodedQuery}`;
@@ -303,7 +331,9 @@ async function scrapeLeads(
         !url.includes('gstatic') &&
         !url.includes('schema.org')
       )
-      .slice(0, 50); // Limit to 50 websites
+      .slice(offset % 10, Math.min((offset % 10) + 50, 60)); // Use offset to skip websites
+
+    console.log(`Found ${websites.length} websites to scrape (after offset)`);
 
     // Scrape each website for contact info
     for (const website of websites) {

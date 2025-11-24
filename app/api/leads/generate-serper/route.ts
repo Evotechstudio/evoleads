@@ -106,6 +106,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check for existing searches in the same location to calculate offset
+    const { data: existingSearches } = await supabase
+      .from('user_searches')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('business_type', businessType)
+      .eq('country', country)
+      .eq('state', state)
+      .eq('city', city || '')
+      .eq('status', 'completed');
+
+    const searchOffset = (existingSearches?.length || 0) * leadsCount;
+
     // Create search record
     const { data: searchRecord, error: searchError } = await supabase
       .from('user_searches')
@@ -125,8 +138,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create search record' }, { status: 500 });
     }
 
-    // Scrape leads using Serper.dev
-    const leads = await scrapeLeadsWithSerper(businessType, country, state, city, leadsCount);
+    // Get existing lead names to avoid duplicates
+    const { data: existingLeads } = await supabase
+      .from('leads')
+      .select('business_name')
+      .in('search_id', existingSearches?.map(s => s.id) || []);
+
+    const existingBusinessNames = new Set(
+      existingLeads?.map(l => l.business_name.toLowerCase().trim()) || []
+    );
+
+    // Scrape leads using Serper.dev with offset
+    const leads = await scrapeLeadsWithSerper(
+      businessType, 
+      country, 
+      state, 
+      city, 
+      leadsCount,
+      searchOffset,
+      existingBusinessNames
+    );
 
     console.log(`Generated ${leads.length} leads for user ${userId}`);
 
@@ -213,7 +244,9 @@ async function scrapeLeadsWithSerper(
   country: string,
   state: string,
   city?: string,
-  maxLeads: number = 10
+  maxLeads: number = 10,
+  offset: number = 0,
+  existingBusinessNames: Set<string> = new Set()
 ): Promise<ScrapedLead[]> {
   const leads: ScrapedLead[] = [];
   
@@ -222,9 +255,14 @@ async function scrapeLeadsWithSerper(
     const location = city ? `${city}, ${state}, ${country}` : `${state}, ${country}`;
     const searchQuery = `${businessType} in ${location}`;
     
-    console.log(`Searching with Serper: ${searchQuery}`);
+    console.log(`Searching with Serper: ${searchQuery} (offset: ${offset})`);
 
-    // Call Serper.dev Google Maps API
+    // Calculate how many results to fetch (need more to account for duplicates)
+    const fetchCount = Math.min(maxLeads * 3, 60);
+
+    // Call Serper.dev Google Maps API with page parameter for pagination
+    const page = Math.floor(offset / 20) + 1; // Serper returns ~20 results per page
+    
     const response = await fetch('https://google.serper.dev/maps', {
       method: 'POST',
       headers: {
@@ -233,7 +271,8 @@ async function scrapeLeadsWithSerper(
       },
       body: JSON.stringify({
         q: searchQuery,
-        num: Math.min(maxLeads * 2, 40) // Get more than needed
+        num: fetchCount,
+        page: page // Add pagination
       })
     });
 
@@ -244,10 +283,22 @@ async function scrapeLeadsWithSerper(
     const data = await response.json();
     const places: SerperPlace[] = data.places || [];
 
-    console.log(`Serper returned ${places.length} places`);
+    console.log(`Serper returned ${places.length} places (page ${page})`);
 
-    // Process each place
-    for (const place of places.slice(0, maxLeads)) {
+    // Calculate which results to use based on offset
+    const startIndex = offset % 20; // Offset within the current page
+    const availablePlaces = places.slice(startIndex);
+
+    // Process each place, skipping duplicates
+    for (const place of availablePlaces) {
+      if (leads.length >= maxLeads) break;
+
+      // Skip if we already have this business
+      const normalizedName = place.title.toLowerCase().trim();
+      if (existingBusinessNames.has(normalizedName)) {
+        console.log(`Skipping duplicate: ${place.title}`);
+        continue;
+      }
       let email: string | undefined;
       
       // Try to get email from website

@@ -88,8 +88,55 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Scrape leads
-    const leads = await scrapeLeads(businessType, country, state, city, leadsCount);
+    // Try to get existing leads to avoid duplicates
+    let existingBusinessNames = new Set<string>();
+    let searchOffset = 0;
+    
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+      );
+
+      // Check for existing searches in the same location
+      const { data: existingSearches } = await supabase
+        .from('user_searches')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('business_type', businessType)
+        .eq('country', country)
+        .eq('state', state)
+        .eq('city', city || '')
+        .eq('status', 'completed');
+
+      searchOffset = (existingSearches?.length || 0) * leadsCount;
+
+      // Get existing lead names
+      if (existingSearches && existingSearches.length > 0) {
+        const { data: existingLeads } = await supabase
+          .from('leads')
+          .select('business_name')
+          .in('search_id', existingSearches.map(s => s.id));
+
+        existingBusinessNames = new Set(
+          existingLeads?.map(l => l.business_name.toLowerCase().trim()) || []
+        );
+      }
+    } catch (dbError) {
+      console.log('Could not check for duplicates:', dbError);
+    }
+
+    // Scrape leads with offset and duplicate checking
+    const leads = await scrapeLeads(
+      businessType, 
+      country, 
+      state, 
+      city, 
+      leadsCount,
+      searchOffset,
+      existingBusinessNames
+    );
 
     // Update usage
     usage.searches += 1;
@@ -162,17 +209,26 @@ async function scrapeLeads(
   country: string,
   state: string,
   city?: string,
-  maxLeads: number = 10
+  maxLeads: number = 10,
+  offset: number = 0,
+  existingBusinessNames: Set<string> = new Set()
 ): Promise<ScrapedLead[]> {
   const leads: ScrapedLead[] = [];
   
   try {
-    // Build search query
+    // Build search query with variation to get different results
     const location = city ? `${city}, ${state}, ${country}` : `${state}, ${country}`;
-    const searchQuery = `${businessType} in ${location}`;
+    
+    // Add variation to query based on offset to get different results
+    const variations = ['', 'best', 'top', 'local', 'near me', 'services'];
+    const variation = variations[Math.floor(offset / maxLeads) % variations.length];
+    const searchQuery = variation 
+      ? `${variation} ${businessType} in ${location}`
+      : `${businessType} in ${location}`;
+    
     const encodedQuery = encodeURIComponent(searchQuery);
     
-    console.log(`Scraping: ${searchQuery}`);
+    console.log(`Scraping: ${searchQuery} (offset: ${offset})`);
     
     // Scrape Google Maps
     const mapsUrl = `https://www.google.com/maps/search/${encodedQuery}`;
@@ -200,9 +256,9 @@ async function scrapeLeads(
         !url.includes('facebook') &&
         !url.includes('instagram')
       )
-      .slice(0, Math.min(maxLeads * 5, 50)); // Get more websites to increase chances
+      .slice(offset % 10, Math.min((offset % 10) + maxLeads * 5, 50)); // Use offset to skip websites
 
-    console.log(`Found ${websites.length} websites to scrape`);
+    console.log(`Found ${websites.length} websites to scrape (after offset)`);
 
     // Scrape each website for contact info
     for (const website of websites) {
@@ -287,6 +343,13 @@ async function scrapeLeads(
           .trim()
           .substring(0, 100); // Limit length
 
+        // Check for duplicates
+        const normalizedName = businessName.toLowerCase().trim();
+        if (existingBusinessNames.has(normalizedName)) {
+          console.log(`Skipping duplicate: ${businessName}`);
+          continue;
+        }
+
         // Add lead if we found email OR phone
         if ((emails && emails.length > 0) || (phones && phones.length > 0)) {
           leads.push({
@@ -295,6 +358,7 @@ async function scrapeLeads(
             phone: phones?.[0],
             website: website
           });
+          existingBusinessNames.add(normalizedName); // Track this lead
           console.log(`✓ Found lead: ${businessName} (${emails?.[0] || phones?.[0]})`);
         }
       } catch (error) {
