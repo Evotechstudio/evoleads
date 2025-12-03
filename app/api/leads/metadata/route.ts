@@ -76,8 +76,8 @@ export async function GET(req: NextRequest) {
     // Convert to a map for easier lookup
     const metadataMap = (metadata || []).reduce((acc, item) => {
       acc[item.lead_id] = {
-        isFavorited: item.is_favorited,
-        note: item.note
+        isFavorited: item.is_favorited || false,
+        note: item.note || null
       }
       return acc
     }, {} as Record<string, { isFavorited: boolean; note: string | null }>)
