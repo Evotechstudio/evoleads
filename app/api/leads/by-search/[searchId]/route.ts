@@ -74,23 +74,31 @@ export async function GET(
     }
 
     // Transform data to include metadata
-    const transformedLeads = leads?.map(lead => ({
-      id: lead.id,
-      business_name: lead.business_name,
-      email: lead.email,
-      phone: lead.phone,
-      website: lead.website,
-      confidence_score: lead.confidence_score,
-      created_at: lead.created_at,
-      // Flatten metadata
-      address: lead.lead_metadata?.[0]?.address,
-      city: lead.lead_metadata?.[0]?.city,
-      state: lead.lead_metadata?.[0]?.state,
-      rating: lead.lead_metadata?.[0]?.rating,
-      review_count: lead.lead_metadata?.[0]?.review_count,
-      google_maps_url: lead.lead_metadata?.[0]?.google_maps_url,
-      place_id: lead.lead_metadata?.[0]?.place_id,
-    })) || [];
+    const transformedLeads = leads?.map(lead => {
+      const metadata = Array.isArray(lead.lead_metadata) ? lead.lead_metadata[0] : lead.lead_metadata;
+      
+      console.log('Lead:', lead.business_name, 'has metadata:', !!metadata, 'rating:', metadata?.rating);
+      
+      return {
+        id: lead.id,
+        business_name: lead.business_name,
+        email: lead.email,
+        phone: lead.phone,
+        website: lead.website,
+        confidence_score: lead.confidence_score,
+        created_at: lead.created_at,
+        // Flatten metadata
+        address: metadata?.address || null,
+        city: metadata?.city || null,
+        state: metadata?.state || null,
+        rating: metadata?.rating || null,
+        review_count: metadata?.review_count || null,
+        google_maps_url: metadata?.google_maps_url || null,
+        place_id: metadata?.place_id || null,
+      };
+    }) || [];
+    
+    console.log(`Returning ${transformedLeads.length} leads, ${transformedLeads.filter(l => l.rating).length} with ratings`);
 
     return NextResponse.json({
       success: true,
