@@ -63,7 +63,7 @@ export function HeroSection() {
           >
             Generate High-Quality{' '}
             <motion.span 
-              className="bg-gradient-to-r from-primary from-blue-500 to-cyan-500 bg-clip-text text-transparent relative"
+              className="bg-gradient-to-r from-primary from-blue-600 to-cyan-500 bg-clip-text text-transparent relative"
               animate={{ backgroundPosition: ['0%', '100%', '0%'] }}
               transition={{ duration: 5, repeat: Infinity }}
             >
@@ -99,7 +99,7 @@ export function HeroSection() {
             <Link href="/sign-up">
               <Button variant="default" size="lg" className="w-full sm:w-auto group relative overflow-hidden">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 bg-gradient-to-r from-primary to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   whileHover={{ scale: 1.05 }}
                 />
                 <span className="relative z-10">Start Free Trial</span>

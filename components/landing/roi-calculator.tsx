@@ -46,16 +46,17 @@ export function ROICalculator() {
     const monthlyToolsCost = tools
     const totalMonthlyCost = monthlyTimeCost + monthlyToolsCost
 
-    // With EvoLeads AI (10x faster)
-    const evoLeadsTime = hours / 10
-    const evoLeadsTimeCost = evoLeadsTime * 4 * rate
+    // With EvoLeads AI (takes only minutes - essentially 0 time cost)
+    // Assuming 5 minutes per search, ~20 minutes per month = 0.33 hours
+    const evoLeadsTime = 0.33 // Couple of minutes per month
+    const evoLeadsTimeCost = evoLeadsTime * rate // Minimal time cost
     const evoLeadsCost = 4200 // Starter plan
     const evoLeadsTotalCost = evoLeadsTimeCost + evoLeadsCost
 
     // Savings
     const monthlySavings = totalMonthlyCost - evoLeadsTotalCost
     const yearlySavings = monthlySavings * 12
-    const timeSaved = (hours - evoLeadsTime) * 4 // hours per month
+    const timeSaved = (hours * 4) - evoLeadsTime // Almost all time saved
 
     // Cost per lead
     const costPerLeadManual = leads > 0 ? totalMonthlyCost / leads : 0
@@ -373,9 +374,9 @@ export function ROICalculator() {
                   <div className="flex items-start gap-2 mb-2">
                     <Zap className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-semibold text-sm mb-1">10x Faster Results</div>
+                      <div className="font-semibold text-sm mb-1">Generate Leads in Minutes</div>
                       <div className="text-xs text-muted-foreground">
-                        EvoLeads AI automates lead generation with AI-powered accuracy, saving you time and money.
+                        What takes 10+ hours weekly, EvoLeads AI does in just a couple of minutes with AI-powered accuracy.
                       </div>
                     </div>
                   </div>
