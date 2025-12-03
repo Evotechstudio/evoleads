@@ -3,7 +3,7 @@
 import React, { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card'
-import { PricingTable } from '../../../components/billing/pricing-table'
+import { DashboardPricing } from '../../../components/billing/dashboard-pricing'
 import { useClerkAuth } from '../../../lib/auth/clerk-context'
 import { useToast } from '../../../components/ui/toast'
 import { CreditCard, TrendingUp, Zap, CheckCircle, XCircle } from 'lucide-react'
@@ -201,17 +201,7 @@ function BillingPageContent() {
 
         {/* Pricing Plans */}
         <div className="space-y-6">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold">Choose Your Plan</h2>
-            <p className="text-muted-foreground">
-              {planInfo?.plan === 'free' 
-                ? 'Upgrade to unlock more features and higher limits'
-                : 'Manage your current subscription or explore other plans'
-              }
-            </p>
-          </div>
-          
-          <PricingTable />
+          <DashboardPricing />
         </div>
 
         {/* Additional Information */}

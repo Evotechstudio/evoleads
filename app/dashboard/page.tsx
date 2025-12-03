@@ -11,7 +11,6 @@ import { StatsCard } from '../../components/ui/stats-card'
 import { useToast } from '../../components/ui/toast'
 import { useClerkAuth } from '../../lib/auth/clerk-context'
 import { LeadSearchForm } from '../../components/lead-generation'
-import { DashboardPricing } from '../../components/billing/dashboard-pricing'
 import { 
   CreditCard, 
   BarChart3, 
@@ -280,16 +279,6 @@ export default function DashboardPage() {
               </Button>
             </ModernCardContent>
           </ModernCard>
-        </motion.div>
-
-        {/* Enhanced Pricing Plans Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12"
-        >
-          <DashboardPricing />
         </motion.div>
       </div>
   )
