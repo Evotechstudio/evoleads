@@ -67,7 +67,7 @@ export function PricingSection() {
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl mb-4">
             Choose Your{' '}
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
               Plan
             </span>
           </h2>
@@ -95,7 +95,7 @@ export function PricingSection() {
               )}
               {plan.popular && (
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20">
-                  <Badge className="bg-gradient-to-r from-primary to-purple-600 text-primary-foreground px-3 py-1 text-xs shadow-lg animate-pulse">
+                  <Badge className="bg-gradient-to-r from-blue-500 to-cyan-700 text-primary-foreground px-3 py-1 text-xs shadow-lg animate-pulse">
                     Most Popular
                   </Badge>
                 </div>
@@ -106,7 +106,7 @@ export function PricingSection() {
                 <div className="flex items-center justify-center mb-4">
                   <div className={`flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110 ${
                     plan.popular 
-                      ? 'bg-gradient-to-br from-primary to-purple-600 text-primary-foreground shadow-lg' 
+                      ? 'bg-gradient-to-br from-blue-500 to-cyan-700 text-primary-foreground shadow-lg' 
                       : 'bg-gradient-to-br from-primary/10 to-purple-500/10 text-primary group-hover:from-primary/20 group-hover:to-purple-500/20'
                   }`}>
                     <plan.icon className="h-7 w-7" />

@@ -60,7 +60,7 @@ export function TestimonialsSection() {
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl mb-4">
-            Trusted by <span className="bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">sales teams</span> worldwide
+            Trusted by <span className="bg-gradient-to-r from-primary from-blue-500 to-cyan-500 bg-clip-text text-transparent">sales teams</span> worldwide
           </h2>
           <p className="text-lg text-muted-foreground">
             See what our customers are saying about their experience with Evo Lead AI.

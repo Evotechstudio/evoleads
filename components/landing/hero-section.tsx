@@ -63,7 +63,7 @@ export function HeroSection() {
           >
             Generate High-Quality{' '}
             <motion.span 
-              className="bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent relative"
+              className="bg-gradient-to-r from-primary from-blue-500 to-cyan-500 bg-clip-text text-transparent relative"
               animate={{ backgroundPosition: ['0%', '100%', '0%'] }}
               transition={{ duration: 5, repeat: Infinity }}
             >
