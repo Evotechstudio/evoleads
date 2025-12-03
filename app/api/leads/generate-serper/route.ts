@@ -201,7 +201,12 @@ export async function POST(request: NextRequest) {
           .filter((m): m is NonNullable<typeof m> => m !== null && (!!m.address || !!m.rating));
 
         if (metadataToInsert.length > 0) {
-          await supabase.from('lead_metadata').insert(metadataToInsert);
+          const { error: metadataError } = await supabase.from('lead_metadata').insert(metadataToInsert);
+          if (metadataError) {
+            console.error('Error inserting lead metadata:', metadataError);
+          } else {
+            console.log(`Inserted ${metadataToInsert.length} lead metadata records`);
+          }
         }
       }
     }
