@@ -410,20 +410,40 @@ export interface Database {
         Row: {
           id: string
           lead_id: string
-          user_id: string
-          organization_id: string
-          is_favorited: boolean
-          note: string | null
-          created_at: string
-          updated_at: string
+          user_id?: string
+          organization_id?: string
+          is_favorited?: boolean
+          note?: string | null
+          address?: string | null
+          city?: string | null
+          state?: string | null
+          zip_code?: string | null
+          country?: string | null
+          rating?: number | null
+          review_count?: number | null
+          google_maps_url?: string | null
+          place_id?: string | null
+          last_updated?: string
+          created_at?: string
+          updated_at?: string
         }
         Insert: {
           id?: string
           lead_id: string
-          user_id: string
-          organization_id: string
+          user_id?: string
+          organization_id?: string
           is_favorited?: boolean
           note?: string | null
+          address?: string | null
+          city?: string | null
+          state?: string | null
+          zip_code?: string | null
+          country?: string | null
+          rating?: number | null
+          review_count?: number | null
+          google_maps_url?: string | null
+          place_id?: string | null
+          last_updated?: string
           created_at?: string
           updated_at?: string
         }
@@ -434,6 +454,16 @@ export interface Database {
           organization_id?: string
           is_favorited?: boolean
           note?: string | null
+          address?: string | null
+          city?: string | null
+          state?: string | null
+          zip_code?: string | null
+          country?: string | null
+          rating?: number | null
+          review_count?: number | null
+          google_maps_url?: string | null
+          place_id?: string | null
+          last_updated?: string
           created_at?: string
           updated_at?: string
         }
