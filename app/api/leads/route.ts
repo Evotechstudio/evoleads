@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
           created_at,
           organization_id
         ),
-        lead_metadata (
+        lead_metadata!left (
           rating,
           review_count,
           address,
@@ -153,6 +153,17 @@ export async function GET(req: NextRequest) {
     // Transform the data to flatten the search information and include metadata
     const transformedLeads = leads?.map(lead => {
       const metadata = Array.isArray(lead.lead_metadata) ? lead.lead_metadata[0] : lead.lead_metadata
+      
+      // Debug log to see what we're getting
+      if (metadata) {
+        console.log('Lead metadata found:', {
+          lead_id: lead.id,
+          business_name: lead.business_name,
+          has_rating: !!metadata.rating,
+          has_address: !!metadata.address
+        })
+      }
+      
       return {
         id: lead.id,
         organization_id: lead.organization_id,
@@ -174,6 +185,8 @@ export async function GET(req: NextRequest) {
         search_info: lead.user_searches
       }
     }) || []
+    
+    console.log(`Returning ${transformedLeads.length} leads, ${transformedLeads.filter(l => l.rating).length} with ratings`)
 
     return NextResponse.json({
       success: true,
