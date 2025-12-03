@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    // Build base query
+    // Build base query with lead_metadata join
     let query = supabase
       .from('leads')
       .select(`
@@ -45,6 +45,15 @@ export async function GET(req: NextRequest) {
           status,
           created_at,
           organization_id
+        ),
+        lead_metadata (
+          rating,
+          review_count,
+          address,
+          city,
+          state,
+          google_maps_url,
+          place_id
         )
       `)
       .order('created_at', { ascending: false })
@@ -141,19 +150,30 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    // Transform the data to flatten the search information
-    const transformedLeads = leads?.map(lead => ({
-      id: lead.id,
-      organization_id: lead.organization_id,
-      search_id: lead.search_id,
-      business_name: lead.business_name,
-      email: lead.email,
-      phone: lead.phone,
-      website: lead.website,
-      confidence_score: lead.confidence_score,
-      created_at: lead.created_at,
-      search_info: lead.user_searches
-    })) || []
+    // Transform the data to flatten the search information and include metadata
+    const transformedLeads = leads?.map(lead => {
+      const metadata = Array.isArray(lead.lead_metadata) ? lead.lead_metadata[0] : lead.lead_metadata
+      return {
+        id: lead.id,
+        organization_id: lead.organization_id,
+        search_id: lead.search_id,
+        business_name: lead.business_name,
+        email: lead.email,
+        phone: lead.phone,
+        website: lead.website,
+        confidence_score: lead.confidence_score,
+        created_at: lead.created_at,
+        // Include metadata fields
+        rating: metadata?.rating || null,
+        review_count: metadata?.review_count || null,
+        address: metadata?.address || null,
+        city: metadata?.city || null,
+        state: metadata?.state || null,
+        google_maps_url: metadata?.google_maps_url || null,
+        place_id: metadata?.place_id || null,
+        search_info: lead.user_searches
+      }
+    }) || []
 
     return NextResponse.json({
       success: true,
