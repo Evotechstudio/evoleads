@@ -16,6 +16,7 @@ const plans = [
     icon: Zap,
     popular: false,
     isCurrent: true,
+    isCustom: false,
     features: [
       '2 search requests',
       '20 leads total',
@@ -32,6 +33,7 @@ const plans = [
     icon: Users,
     popular: true,
     isCurrent: false,
+    isCustom: false,
     features: [
       'Unlimited search requests',
       '250 leads per month',
@@ -49,6 +51,7 @@ const plans = [
     icon: Building2,
     popular: false,
     isCurrent: false,
+    isCustom: false,
     features: [
       'Unlimited search requests',
       '1,000 leads per month',
@@ -57,6 +60,18 @@ const plans = [
       'API access',
       'Team collaboration',
     ],
+  },
+  {
+    name: 'Enterprise Plan',
+    price: 'Custom',
+    period: '',
+    description: 'Tailored solutions for enterprise needs',
+    credits: 'Custom requirements',
+    icon: Building2,
+    popular: false,
+    isCurrent: false,
+    isCustom: true,
+    features: [],
   },
 ]
 
@@ -76,7 +91,7 @@ export function PricingSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-stretch">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:items-stretch">
           {plans.map((plan, index) => (
             <Card 
               key={index} 
@@ -124,16 +139,29 @@ export function PricingSection() {
               </CardHeader>
 
               <CardContent className="space-y-6 relative z-10 flex-grow flex flex-col pb-6">
-                <Link href="/sign-up" className="block">
-                  <Button 
-                    className="w-full group/btn"
-                    variant={plan.popular ? 'default' : 'outline'}
-                    size="lg"
-                  >
-                    Get Started
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                  </Button>
-                </Link>
+                {plan.isCustom ? (
+                  <a href="mailto:info@evotechstudio.dev?subject=Custom Plan Inquiry" className="block">
+                    <Button 
+                      className="w-full group/btn"
+                      variant="outline"
+                      size="lg"
+                    >
+                      Contact Sales Team
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                    </Button>
+                  </a>
+                ) : (
+                  <Link href="/sign-up" className="block">
+                    <Button 
+                      className="w-full group/btn"
+                      variant={plan.popular ? 'default' : 'outline'}
+                      size="lg"
+                    >
+                      Get Started
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                    </Button>
+                  </Link>
+                )}
 
                 <div className="space-y-3 flex-grow">
                   {plan.features.map((feature, featureIndex) => (
@@ -142,6 +170,13 @@ export function PricingSection() {
                       <span className="text-sm text-muted-foreground leading-relaxed">{feature}</span>
                     </div>
                   ))}
+                  {plan.isCustom && (
+                    <div className="text-center py-8">
+                      <p className="text-sm text-muted-foreground">
+                        Get a tailored solution with custom features, dedicated support, and flexible pricing for your enterprise needs.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

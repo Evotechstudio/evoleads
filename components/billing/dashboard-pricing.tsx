@@ -6,7 +6,7 @@ import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { useClerkAuth } from '../../lib/auth/clerk-context'
 import { useToast } from '../ui/toast'
-import { Check, Zap, Star, Crown, Sparkles, ArrowRight } from 'lucide-react'
+import { Check, Zap, Star, Crown, Sparkles, ArrowRight, Building2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -36,7 +36,7 @@ const PLANS = [
     interval: 'month',
     clerkPlanId: 'cplan_34n96CAT3Px6QokfOSAiFLybroyW',
     features: [
-      '50 search requests per month',
+      'Unlimited search requests',
       '250 leads per month',
       'Advanced lead information',
       'CSV/Excel export',
@@ -67,6 +67,24 @@ const PLANS = [
     color: 'from-purple-500 to-pink-600',
     bgColor: 'from-purple-50 to-pink-50',
     textColor: 'text-purple-700'
+  },
+  {
+    id: 'custom',
+    name: 'Custom Plan',
+    priceInPKR: 0,
+    interval: 'custom',
+    clerkPlanId: null,
+    features: [
+      'Custom requirements',
+      'Tailored solutions',
+      'Dedicated support',
+      'Flexible pricing'
+    ],
+    popular: false,
+    icon: Building2,
+    color: 'from-orange-500 to-red-600',
+    bgColor: 'from-orange-50 to-red-50',
+    textColor: 'text-orange-700'
   }
 ]
 
@@ -165,7 +183,7 @@ export function DashboardPricing() {
       </div>
 
       {/* Plans Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {PLANS.map((plan, index) => {
           const Icon = plan.icon
           const isCurrent = isCurrentPlan(plan.id)
@@ -233,7 +251,18 @@ export function DashboardPricing() {
                   </ul>
                   
                   <div className="pt-2">
-                    {isCurrent ? (
+                    {plan.id === 'custom' ? (
+                      <Button 
+                        asChild
+                        className="w-full"
+                        variant="outline"
+                      >
+                        <a href="mailto:info@evotechstudio.dev?subject=Custom Plan Inquiry">
+                          Contact Sales Team
+                          <ArrowRight className="h-4 w-4 ml-2" />
+                        </a>
+                      </Button>
+                    ) : isCurrent ? (
                       <Button disabled className="w-full" variant="outline">
                         <Check className="h-4 w-4 mr-2" />
                         Current Plan
