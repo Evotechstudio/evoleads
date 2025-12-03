@@ -5,50 +5,50 @@ import { Star } from 'lucide-react'
 
 const testimonials = [
   {
-    name: 'Sarah Chen',
+    name: 'Ahmed Khan',
     role: 'Sales Director',
-    company: 'TechFlow Solutions',
-    avatar: 'SC',
+    company: 'TechFlow Solutions Karachi',
+    avatar: 'AK',
     content: 'Evo Lead AI transformed our lead generation process. We\'ve increased our qualified leads by 300% and our team loves the collaborative features.',
     rating: 5,
   },
   {
-    name: 'Ahmed Hassan',
+    name: 'Hassan Ali',
     role: 'Marketing Manager',
-    company: 'Digital Growth Co.',
-    avatar: 'AH',
+    company: 'Digital Growth Lahore',
+    avatar: 'HA',
     content: 'The AI-powered search is incredibly accurate. The confidence scores help us prioritize our outreach and focus on the best prospects.',
     rating: 5,
   },
   {
-    name: 'Maria Rodriguez',
+    name: 'Ayesha Malik',
     role: 'Business Development',
-    company: 'Scale Ventures',
-    avatar: 'MR',
+    company: 'Scale Ventures Islamabad',
+    avatar: 'AM',
     content: 'Multi-tenant organizations are a game-changer. We can manage leads for multiple clients seamlessly while keeping data completely separate.',
     rating: 5,
   },
   {
-    name: 'David Kim',
+    name: 'Bilal Ahmed',
     role: 'Founder',
-    company: 'StartupBoost',
-    avatar: 'DK',
+    company: 'StartupBoost Pakistan',
+    avatar: 'BA',
     content: 'The pricing is very reasonable for Pakistani businesses. We started with the trial and quickly upgraded to Growth plan.',
     rating: 5,
   },
   {
-    name: 'Fatima Ali',
+    name: 'Fatima Noor',
     role: 'Sales Team Lead',
-    company: 'ProSales Agency',
-    avatar: 'FA',
+    company: 'ProSales Karachi',
+    avatar: 'FN',
     content: 'Export features are excellent. We can easily integrate with our CRM and the CSV exports are perfectly formatted.',
     rating: 5,
   },
   {
-    name: 'John Thompson',
+    name: 'Usman Tariq',
     role: 'VP of Sales',
-    company: 'Global Reach Ltd.',
-    avatar: 'JT',
+    company: 'Business Hub Lahore',
+    avatar: 'UT',
     content: 'Customer support is outstanding. The team is responsive and helped us set up our organization structure perfectly.',
     rating: 5,
   },
@@ -60,11 +60,7 @@ export function TestimonialsSection() {
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl mb-4">
-            Trusted by{' '}
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-              sales teams
-            </span>{' '}
-            worldwide
+            Trusted by <span className="bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">sales teams</span> worldwide
           </h2>
           <p className="text-lg text-muted-foreground">
             See what our customers are saying about their experience with Evo Lead AI.
@@ -110,19 +106,19 @@ export function TestimonialsSection() {
             <CardContent className="p-8 sm:p-12">
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-4 text-center">
                 <div>
-                  <div className="text-3xl font-bold text-primary mb-2">500+</div>
-                  <div className="text-sm text-muted-foreground">Active Organizations</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">100+</div>
+                  <div className="text-sm text-muted-foreground">Active Users</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-primary mb-2">10M+</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">10M+</div>
                   <div className="text-sm text-muted-foreground">Leads Generated</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-primary mb-2">95%</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">95%</div>
                   <div className="text-sm text-muted-foreground">Customer Satisfaction</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-primary mb-2">24/7</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">24/7</div>
                   <div className="text-sm text-muted-foreground">Support Available</div>
                 </div>
               </div>

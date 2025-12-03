@@ -170,6 +170,9 @@ export function useLeads({
 
     const headers = [
       'Business Name',
+      'Rating',
+      'Review Count',
+      'Address',
       'Email',
       'Phone',
       'Website',
@@ -185,6 +188,9 @@ export function useLeads({
         const leadMetadata = metadata[lead.id]
         return [
           `"${lead.business_name}"`,
+          `"${lead.rating || ''}"`,
+          `"${lead.review_count || ''}"`,
+          `"${lead.address || ''}"`,
           `"${lead.email || ''}"`,
           `"${lead.phone || ''}"`,
           `"${lead.website || ''}"`,

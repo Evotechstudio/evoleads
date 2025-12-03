@@ -2,10 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '../ui/button'
 import { GetStartedButton } from '../ui/get-started-button'
 import { ThemeToggle } from '../ui/theme-toggle'
-import { Menu, X, Zap } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 export function LandingHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -14,11 +15,16 @@ export function LandingHeader() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2 shrink-0">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <Zap className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="text-base sm:text-xl font-bold whitespace-nowrap">Evo Lead AI</span>
+        <Link href="/" className="flex items-center space-x-3 shrink-0">
+          <Image 
+            src="/EvotechLogo.png" 
+            alt="Evotech Logo" 
+            width={32} 
+            height={32}
+            className="h-8 w-8 object-contain"
+            priority
+          />
+          <span className="text-base sm:text-xl font-bold whitespace-nowrap">EvoLeads AI</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -77,7 +77,7 @@ function SuccessPageContent() {
           <p className="text-muted-foreground mb-6">
             No leads were generated. Please try again with different search criteria.
           </p>
-          <Link href="/dashboard/generate">
+          <Link href="/dashboard">
             <Button>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Search
@@ -104,7 +104,7 @@ function SuccessPageContent() {
             <Download className="mr-2 h-4 w-4" />
             Download CSV
           </Button>
-          <Link href="/dashboard/generate">
+          <Link href="/dashboard">
             <Button>
               <ArrowLeft className="mr-2 h-4 w-4" />
               New Search

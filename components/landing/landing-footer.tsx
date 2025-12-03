@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Zap, Mail, MapPin, Phone } from 'lucide-react'
+import Image from 'next/image'
+import { Mail, MapPin, Phone } from 'lucide-react'
 
 const footerLinks = {
   product: [
@@ -37,11 +38,15 @@ export function LandingFooter() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-6">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <Zap className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold">Evo Lead AI</span>
+            <Link href="/" className="flex items-center space-x-3 mb-4">
+              <Image 
+                src="/EvotechLogo.png" 
+                alt="Evotech Logo" 
+                width={32} 
+                height={32}
+                className="h-8 w-8 object-contain"
+              />
+              <span className="text-xl font-bold">EvoLeads AI</span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-md">
               AI-powered lead generation platform that helps businesses find and convert 

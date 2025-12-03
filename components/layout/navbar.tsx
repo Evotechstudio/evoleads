@@ -1,14 +1,14 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import { Button } from '../ui/button'
 import { GetStartedButton } from '../ui/get-started-button'
 import { ThemeToggle } from '../theme/theme-toggle'
 import {
   Menu,
-  X,
-  Zap
+  X
 } from 'lucide-react'
 
 interface NavbarProps {
@@ -40,12 +40,17 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
             </Button>
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0 hover:opacity-80 transition-opacity">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Zap className="h-5 w-5" />
-              </div>
+            <Link href="/" className="flex items-center gap-3 shrink-0 hover:opacity-80 transition-opacity">
+              <Image 
+                src="/EvotechLogo.png" 
+                alt="Evotech Logo" 
+                width={32} 
+                height={32}
+                className="h-8 w-8 object-contain"
+                priority
+              />
               <span className="hidden font-bold sm:inline-block lg:text-lg">
-                Evo Lead AI
+                EvoLeads AI
               </span>
             </Link>
           </div>

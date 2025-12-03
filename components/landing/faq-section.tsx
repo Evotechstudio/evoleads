@@ -7,43 +7,43 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 const faqs = [
   {
     question: 'How does the free trial work?',
-    answer: 'You get 2 free searches (up to 200 leads total) when you sign up. No credit card required. You can explore all features and see the quality of our data before deciding to upgrade.',
+    answer: 'You get 2 free search requests with up to 20 leads total when you sign up. No credit card required. You can explore all features including basic lead information and CSV export to see the quality of our data before deciding to upgrade.',
   },
   {
-    question: 'What is a credit and how many leads do I get?',
-    answer: 'One credit equals 100 leads. So with the Starter plan (20 credits), you get up to 2,000 leads per month. The Growth plan (80 credits) gives you 8,000 leads, and the Agency plan (300 credits) provides 30,000 leads.',
+    question: 'What are the differences between plans?',
+    answer: 'Trial plan offers 2 search requests and 20 leads total. Starter plan (₨4,200/month) provides unlimited search requests with 250 leads per month, advanced lead information, CSV/Excel export, and priority support. Pro plan (₨13,720/month) includes unlimited searches, 1,000 leads per month, premium lead information, all export formats, API access, and team collaboration features.',
+  },
+  {
+    question: 'What does "unlimited search requests" mean?',
+    answer: 'With Starter and Pro plans, you can perform as many searches as you need without any restrictions. The only limit is the total number of leads you can generate per month (250 for Starter, 1,000 for Pro). This allows you to refine your searches and target specific industries and locations without worrying about search limits.',
   },
   {
     question: 'How accurate is your lead data?',
-    answer: 'Our AI-powered system maintains a 95% accuracy rate. Each lead comes with a confidence score so you can prioritize your outreach. We continuously update our database and verify contact information.',
+    answer: 'Our AI-powered system maintains a 95% accuracy rate. Each lead comes with a confidence score so you can prioritize your outreach. We source data from verified business directories and continuously update our database to ensure you get the most current and accurate contact information.',
   },
   {
-    question: 'Can I use Evo Lead AI for multiple businesses?',
-    answer: 'Yes! Our multi-tenant organization system allows you to create separate workspaces for different businesses or clients. Each organization has its own data, credits, and team members.',
+    question: 'What information is included in each lead?',
+    answer: 'Basic leads include business name and contact details. Advanced leads (Starter plan) add location data, ratings, and reviews. Premium leads (Pro plan) include comprehensive business information, social profiles, and enhanced verification. All leads come with confidence scores to help you prioritize outreach.',
   },
   {
     question: 'What export formats do you support?',
-    answer: 'You can export leads in CSV and Excel formats. We also provide API access for custom integrations and plan to add direct CRM integrations (Salesforce, HubSpot, Pipedrive) soon.',
+    answer: 'Trial and Starter plans support CSV export. Starter plan also includes Excel format. Pro plan provides all export formats including CSV, Excel, and JSON, plus API access for custom integrations with your existing tools and CRM systems.',
   },
   {
-    question: 'Is my data secure?',
-    answer: 'Absolutely. We use enterprise-grade security with OAuth authentication, encrypted data storage, and Row Level Security (RLS) to ensure complete data isolation between organizations.',
-  },
-  {
-    question: 'Can I invite team members to my organization?',
-    answer: 'Yes, you can invite unlimited team members to collaborate within your organization. Each member can access shared leads and contribute to your lead generation efforts.',
+    question: 'Can I use Evo Lead AI for team collaboration?',
+    answer: 'Yes! The Pro plan includes team collaboration features, allowing multiple team members to work together, share leads, and coordinate outreach efforts. Each team member can access shared leads and contribute to your lead generation strategy.',
   },
   {
     question: 'What countries and regions do you cover?',
-    answer: 'We provide global coverage with detailed business data from major markets. Our location search includes country, state/province, and city-level targeting for precise lead generation.',
+    answer: 'We provide global coverage with detailed business data from major markets worldwide. Our location search includes country, state/province, and city-level targeting for precise lead generation. You can target specific geographic areas to find businesses in your desired locations.',
   },
   {
     question: 'How does billing work?',
-    answer: 'We use Safepay for secure payment processing in Pakistani Rupees (PKR). Plans are billed monthly, and you can upgrade, downgrade, or cancel anytime. Unused credits don\'t roll over to the next month.',
+    answer: 'We accept payments in Pakistani Rupees (PKR) through secure payment processing. Plans are billed monthly. You can upgrade or downgrade your plan anytime, and changes take effect immediately. You can also cancel your subscription at any time with no long-term commitments.',
   },
   {
-    question: 'Do you offer customer support?',
-    answer: 'Yes! Starter plan includes email support, Growth plan gets priority email support, and Agency plan includes a dedicated account manager. We also have comprehensive documentation and tutorials.',
+    question: 'What kind of support do you offer?',
+    answer: 'Trial plan users have access to our documentation and tutorials. Starter plan includes priority email support with faster response times. Pro plan users get dedicated support with API assistance and team onboarding help. All plans have access to our comprehensive knowledge base.',
   },
 ]
 
