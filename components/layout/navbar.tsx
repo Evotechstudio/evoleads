@@ -55,29 +55,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
             </Link>
           </div>
 
-          {/* Center navigation */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 absolute left-1/2 -translate-x-1/2">
-            <Link href="#features">
-              <Button variant="ghost" size="sm" className="h-9 px-3 lg:px-4">
-                Features
-              </Button>
-            </Link>
-            <Link href="#pricing">
-              <Button variant="ghost" size="sm" className="h-9 px-3 lg:px-4">
-                Pricing
-              </Button>
-            </Link>
-            <Link href="#testimonials">
-              <Button variant="ghost" size="sm" className="h-9 px-3 lg:px-4">
-                Testimonials
-              </Button>
-            </Link>
-            <Link href="#faq">
-              <Button variant="ghost" size="sm" className="h-9 px-3 lg:px-4">
-                FAQ
-              </Button>
-            </Link>
-          </nav>
+
 
           {/* Right section */}
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
