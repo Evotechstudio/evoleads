@@ -70,7 +70,7 @@ const PLANS = [
   },
   {
     id: 'custom',
-    name: 'Custom Plan',
+    name: 'Enterprise Plan',
     priceInPKR: 0,
     interval: 'custom',
     clerkPlanId: null,
@@ -232,7 +232,7 @@ export function DashboardPricing() {
                   
                   <div className="flex items-baseline justify-center gap-1">
                     <span className="text-2xl font-bold">
-                      {plan.priceInPKR === 0 ? 'Free' : `₨${plan.priceInPKR.toLocaleString()}`}
+                      {plan.id === 'custom' ? 'Custom' : plan.priceInPKR === 0 ? 'Free' : `₨${plan.priceInPKR.toLocaleString()}`}
                     </span>
                     {plan.interval !== 'free' && plan.priceInPKR > 0 && (
                       <span className="text-sm text-muted-foreground">/{plan.interval}</span>
@@ -257,7 +257,7 @@ export function DashboardPricing() {
                         className="w-full"
                         variant="outline"
                       >
-                        <a href="mailto:info@evotechstudio.dev?subject=Custom Plan Inquiry">
+                        <a href="mailto:info@evotechstudio.dev?subject=Enterprise Plan Inquiry">
                           Contact Sales Team
                           <ArrowRight className="h-4 w-4 ml-2" />
                         </a>
@@ -266,6 +266,10 @@ export function DashboardPricing() {
                       <Button disabled className="w-full" variant="outline">
                         <Check className="h-4 w-4 mr-2" />
                         Current Plan
+                      </Button>
+                    ) : plan.id === 'free' ? (
+                      <Button disabled className="w-full" variant="outline">
+                        Not Available
                       </Button>
                     ) : canUpgradeToThis ? (
                       <Button 

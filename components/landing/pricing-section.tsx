@@ -140,7 +140,7 @@ export function PricingSection() {
 
               <CardContent className="space-y-6 relative z-10 flex-grow flex flex-col pb-6">
                 {plan.isCustom ? (
-                  <a href="mailto:info@evotechstudio.dev?subject=Custom Plan Inquiry" className="block">
+                  <a href="mailto:info@evotechstudio.dev?subject=Enterprise Plan Inquiry" className="block">
                     <Button 
                       className="w-full group/btn"
                       variant="outline"
